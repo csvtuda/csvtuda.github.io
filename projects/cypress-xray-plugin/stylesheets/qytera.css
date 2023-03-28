@@ -1,3 +1,9 @@
+/*
+ * # =========================================== #
+ * # DO NOT MODIFY THIS FILE. ANY MODIFICATIONS  #
+ * # WILL BE OVERWRITTEN DURING DEPLOYMENT.      #
+ * # =========================================== #
+ */
 :root {
   --DARK_RED: #580A24;
   --DARK_BLUE: #1F1F39;
@@ -61,8 +67,11 @@
 }
 
 /*
- * Make development color available as convenient class.
+ * Make development color available as convenient classes.
  */
 .development {
   color: var(--CONSTRUCTION_ORANGE);
+}
+.development-bg {
+  background-color: var(--CONSTRUCTION_ORANGE);
 }
