@@ -1,0 +1,184 @@
+---
+toc_max_heading_level: 6
+sidebar_position: 2
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import ThemedImage from "@theme/ThemedImage";
+
+# Feature file synchronization
+
+The plugin allows you to keep your local feature files in sync with the step definitions in Xray.
+
+<hr />
+
+## Feature file upload
+
+<figure>
+  <ThemedImage
+    alt="Synchronize step definitions in Xray based on your local feature files."
+    sources={{
+      light: useBaseUrl("/img/cypressXrayCucumberUploadLight.svg"),
+      dark: useBaseUrl("/img/cypressXrayCucumberUploadDark.svg"),
+    }}
+  />
+  <figcaption>
+    Synchronize step definitions in Xray based on your local feature files.
+  </figcaption>
+</figure>
+
+Uploading feature files is useful if the source of truth for test cases are local feature files in Cypress and Xray is only used for tracking execution results.
+You can enable the upload using the [`uploadFeatures`](../configuration/cucumber.mdx#uploadfeatures) setting and by making sure that [feature file synchronization](../setup/installation.md#cucumber-tests) is enabled.
+
+:::note
+
+Don't forget to [add tags](targetingExistingIssues.mdx#reuse-cucumber-issues) to your backgrounds, scenarios and scenario outlines.
+Uploads of untagged feature files will always be skipped as a precautionary measure.
+
+:::
+
+:::tip Example
+
+In the following scenario, the [existing example](targetingExistingIssues.mdx#reuse-cucumber-issues) will be extended by an additional step.
+
+<Tabs>
+  <TabItem value="feature" label="demo.spec.feature">
+
+```gherkin showLineNumbers hl_lines="8"
+Feature: Example page redirection
+
+    @TestName:CYP-129
+    Scenario: Redirect by clicking
+        Given the example page
+        When the link is clicked
+        Then a redirect should occur
+        // highlight-start
+        And the test should fail
+        // highlight-end
+```
+
+  </TabItem>
+  <TabItem value="spec" label="demo.spec.js">
+
+```js showLineNumbers
+import { Given, Then, When } from "@badeball/cypress-cucumber-preprocessor";
+
+Given("the example page", function () {
+  cy.visit("https://example.org");
+});
+
+When("the link is clicked", function () {
+  // Intercept the click, since it unfortunately redirects to a http:// location
+  // and causes Cypress to abort the execution.
+  cy.intercept("GET", "https://www.iana.org/domains/example", (request) => {
+    request.reply("link was clicked");
+  }).as("redirect");
+  cy.get("a").click();
+});
+
+Then("a redirect should occur", function () {
+  cy.wait("@redirect").then((request) => {
+    expect(request.response.body).to.eq("link was clicked");
+  });
+});
+
+// highlight-start
+Then("the test should fail", function () {
+  expect(true).to.be.false;
+});
+// highlight-end
+```
+
+  </TabItem>
+  <TabItem value="config" label="cypress.config.js">
+
+```js showLineNumbers
+import { addCucumberPreprocessorPlugin } from "@badeball/cypress-cucumber-preprocessor";
+import createEsbuildPlugin from "@badeball/cypress-cucumber-preprocessor/esbuild";
+import createBundler from "@bahmutov/cypress-esbuild-preprocessor";
+import { configureXrayPlugin, syncFeatureFile } from "cypress-xray-plugin";
+import fix from "cypress-on-fix";
+
+// ...
+async setupNodeEvents(on, config) {
+    const fixedOn = fix(on);
+    await addCucumberPreprocessorPlugin(fixedOn, config);
+    await configureXrayPlugin(
+        fixedOn,
+        config,
+        {
+            jira: {
+                projectKey: "CYP",
+                url: "https://example.atlassian.net"
+            }
+            // highlight-start
+            cucumber: {
+                featureFileExtension: ".feature",
+                uploadFeatures: true
+            }
+            // highlight-end
+        }
+    );
+    fixedOn("file:preprocessor", async (file) => {
+        await syncFeatureFile(file);
+        const cucumberPlugin = createBundler({
+            plugins: [createEsbuildPlugin(config)],
+        });
+        return cucumberPlugin(file);
+    });
+    return config;
+}
+// ...
+```
+
+  </TabItem>
+  <TabItem value="video" label="Video">
+
+Please observe the steps and the issue's summary changing due to the feature import.
+
+<video
+  preload="none"
+  poster="/video/guides_feature_synchronization_00.jpg"
+  controls
+  muted
+>
+  <source src="/video/guides_feature_synchronization_00.mp4" type="video/mp4" />
+  Your browser does not support the video tag.
+</video>
+
+  </TabItem>
+</Tabs>
+
+:::
+
+### Language support
+
+By default, Xray expects feature files to use English keywords.
+If you want to use [different languages](https://cucumber.io/docs/gherkin/languages/), make sure to add the corresponding `# language:` header to your feature files, as described [here](https://cucumber.io/docs/gherkin/reference/#spoken-languages).
+
+:::tip Example
+
+```gherkin showLineNumbers
+# language: de
+Funktionalität: Weiterleitung Beispielseite
+
+    @TestName:CYP-129
+    Szenario: Weiterleitung durch Klick
+        Angenommen Beispielseite
+        Wenn Klick auf Link
+        Dann Weiterleitung findet statt
+```
+
+:::
+
+<hr />
+
+## Feature file download
+
+:::warning Development
+
+Synchronization of local feature files based on the step definitions as managed in Xray is planned as a future feature (i.e. download of Xray step definitions to local feature files and then running them).
+
+:::

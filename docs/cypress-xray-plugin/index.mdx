@@ -1,0 +1,58 @@
+---
+sidebar_position: 0
+sidebar_label: Home
+title: Cypress Xray Plugin
+hide_title: true
+hide_table_of_contents: true
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import ThemedImage from "@theme/ThemedImage";
+
+<ThemedImage
+  alt="plugin header"
+  sources={{
+    light: useBaseUrl("/img/headerDark.svg"),
+    dark: useBaseUrl("/img/headerLight.svg"),
+  }}
+/>
+
+<figure markdown>
+  <video controls autoplay muted>
+    <source src="/video/showcase.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+  <figcaption>
+    Two passing tests and one failing test for{" "}
+    <a href="https://example.org">https://example.org</a>.
+  </figcaption>
+</figure>
+
+<h2 style={{ color: "var(--ifm-color-info)" }}>
+  <i>
+
+A Cypress plugin for Xray integration.
+Supports Xray Server/DC and Xray Cloud.
+
+  </i>
+</h2>
+
+- Upload test results to Xray
+- Attach screenshots as test execution evidence
+- Attach web requests as test execution evidence
+- Attach videos to test execution issues
+- Reuse existing test execution and test plan issues
+- CI/CD ready
+- Cucumber support
+
+<i>Cucumber only:</i>
+
+- Automatic import of feature files to Jira
+
+:::note
+
+This plugin only works when running Cypress through the CLI (i.e. `npx cypress run`).
+
+:::

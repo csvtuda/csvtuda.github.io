@@ -1,0 +1,733 @@
+---
+toc_max_heading_level: 6
+sidebar_position: 2
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+# Xray
+
+You can provide a bunch of Xray settings which might become necessary depending on your project configuration.
+
+## Optional settings
+
+### `status`
+
+These status options represent the mapping of Cypress statuses to corresponding Xray _test_ statuses.
+If you have custom _test_ statuses set up in Xray, you should specify their names here.
+
+<Tabs>
+  <TabItem value="xray-server" label="Xray server">
+
+![Xray server test status dropdown](/img/xrayTestStatusDropdownServer.png)
+
+  </TabItem>
+  <TabItem value="xray-cloud" label="Xray cloud">
+
+![Xray cloud test status dropdown](/img/xrayTestStatusDropdownCloud.png)
+
+  </TabItem>
+</Tabs>
+
+:::info
+
+For more information on test statuses, please refer to the official documentation:
+
+- Xray server: [https://docs.getxray.app/display/XRAY/Manage+Test+Statuses](https://docs.getxray.app/display/XRAY/Manage+Test+Statuses)
+- Xray cloud: [https://docs.getxray.app/display/XRAYCLOUD/Global+Settings%3A+Test+Statuses](https://docs.getxray.app/display/XRAYCLOUD/Global+Settings%3A+Test+Statuses)
+
+:::
+
+<hr />
+
+#### `aggregate`
+
+A function that returns a single Xray status for a given combination of Cypress statuses.
+It is used to determine the final status of retried and data-driven tests and is never called for tests that have only been run once.
+
+:::info
+
+Tests are grouped by the issue keys present in their `describe()` and `it()` titles as described [here](../guides/targetingExistingIssues.mdx#reuse-cypress-issues).
+
+:::
+
+**_Type_**
+: `function`
+
+**_Default_**
+
+```js showLineNumbers
+({ failed, passed, pending, skipped }) => {
+  if (passed > 0 && failed === 0 && skipped === 0) {
+    // return Xray status for passed Cypress status
+  }
+  if (passed === 0 && failed === 0 && skipped === 0 && pending > 0) {
+    // return Xray status for pending Cypress status
+  }
+  if (skipped > 0) {
+    // return Xray status for skipped Cypress status
+  }
+  // return Xray status for failed Cypress status
+};
+```
+
+:::tip Example
+
+The following example defines custom `FLAKY` and `ABORTED` statuses for iterated tests:
+
+```js showLineNumbers
+await configureXrayPlugin(on, config, {
+  xray: {
+    status: {
+      aggregate: ({ failed, passed, pending, skipped }) => {
+        if (passed > 0 && failed === 0 && skipped === 0) {
+          return "PASSED";
+        }
+        if (passed === 0 && failed === 0 && skipped === 0 && pending > 0) {
+          return "FLAKY";
+        }
+        if (skipped > 0) {
+          return "ABORTED";
+        }
+        return "FAILED";
+      },
+    },
+  },
+});
+```
+
+:::
+
+<hr />
+
+#### `failed`
+
+The Xray status name of a test marked as failed by Cypress.
+
+**_Environment variable_**
+: `XRAY_STATUS_FAILED`
+
+**_Type_**
+: `string`
+
+**_Default when providing Xray server credentials_**
+: `"FAIL"`
+
+**_Default when providing Xray cloud credentials_**
+: `"FAILED"`
+
+:::tip Example
+
+<Tabs>
+  <TabItem value="configuration" label="Cypress configuration">
+
+```js showLineNumbers
+await configureXrayPlugin(on, config, {
+  xray: {
+    status: {
+      failed: "FAILURE",
+    },
+  },
+});
+```
+
+  </TabItem>
+  <TabItem value="env" label="Environment variable">
+
+```sh showLineNumbers
+npx cypress run --env XRAY_STATUS_FAILED=FAILURE
+```
+
+  </TabItem>
+</Tabs>
+
+:::
+
+<hr />
+
+#### `passed`
+
+The Xray status name of a test marked as passed by Cypress.
+
+**_Environment variable_**
+: `XRAY_STATUS_PASSED`
+
+**_Type_**
+: `string`
+
+**_Default when providing Xray server credentials_**
+: `"PASS"`
+
+**_Default when providing Xray cloud credentials_**
+: `"PASSED"`
+
+:::tip Example
+
+<Tabs>
+  <TabItem value="configuration" label="Cypress configuration">
+
+```js showLineNumbers
+await configureXrayPlugin(on, config, {
+  xray: {
+    status: {
+      passed: "SUCCESS",
+    },
+  },
+});
+```
+
+  </TabItem>
+  <TabItem value="env" label="Environment variable">
+
+```sh showLineNumbers
+npx cypress run --env XRAY_STATUS_PASSED=SUCCESS
+```
+
+  </TabItem>
+</Tabs>
+
+:::
+
+<hr />
+
+#### `pending`
+
+The Xray status name of a test marked as pending by Cypress.
+
+**_Environment variable_**
+: `XRAY_STATUS_PENDING`
+
+**_Type_**
+: `string`
+
+**_Default when providing Xray server credentials_**
+: `"TODO"`
+
+**_Default when providing Xray cloud credentials_**
+: `"TO DO"`
+
+:::tip Example
+
+<Tabs>
+  <TabItem value="configuration" label="Cypress configuration">
+
+```js showLineNumbers
+await configureXrayPlugin(on, config, {
+  xray: {
+    status: {
+      pending: "AWAITING EXECUTION",
+    },
+  },
+});
+```
+
+  </TabItem>
+  <TabItem value="env" label="Environment variable">
+
+```sh showLineNumbers
+npx cypress run --env XRAY_STATUS_PENDING="AWAITING EXECUTION"
+```
+
+  </TabItem>
+</Tabs>
+
+:::
+
+<hr />
+
+#### `skipped`
+
+The Xray status name of a test marked as skipped by Cypress.
+
+**_Environment variable_**
+: `XRAY_STATUS_SKIPPED`
+
+**_Type_**
+: `string`
+
+**_Default when providing Xray server credentials_**
+: `"FAIL"`
+
+**_Default when providing Xray cloud credentials_**
+: `"FAILED"`
+
+:::note
+
+Defaults to failure status because Cypress only skips test cases if errors occur, as described [here](https://docs.cypress.io/guides/core-concepts/writing-and-organizing-tests#Skipped).
+
+:::
+
+:::tip Example
+
+<Tabs>
+  <TabItem value="configuration" label="Cypress configuration">
+
+```js showLineNumbers
+await configureXrayPlugin(on, config, {
+  xray: {
+    status: {
+      skipped: "IGNORED",
+    },
+  },
+});
+```
+
+  </TabItem>
+  <TabItem value="env" label="Environment variable">
+
+```sh showLineNumbers
+npx cypress run --env XRAY_STATUS_SKIPPED="IGNORED"
+```
+
+  </TabItem>
+</Tabs>
+
+:::
+
+#### `step`
+
+These status options represent the mapping of _step_ statuses to corresponding Xray _step_ statuses.
+If you have custom statuses set up in Xray, you should specify their names here.
+
+<Tabs>
+  <TabItem value="xray-server" label="Xray server">
+
+![Xray server test step status dropdown](/img/xrayTestStepStatusSelectionServer.png)
+
+  </TabItem>
+  <TabItem value="xray-cloud" label="Xray cloud">
+
+![Xray cloud test step status dropdown](/img/xrayTestStepStatusSelectionCloud.png)
+
+  </TabItem>
+</Tabs>
+
+:::info
+
+For more information on test step statuses, please refer to the official documentation:
+
+- Xray server: [https://docs.getxray.app/display/XRAY/Manage+Test+Step+Statuses](https://docs.getxray.app/display/XRAY/Manage+Test+Step+Statuses)
+- Xray cloud: [https://docs.getxray.app/display/XRAYCLOUD/Global+Settings%3A+Test+Step+Statuses](https://docs.getxray.app/display/XRAYCLOUD/Global+Settings%3A+Test+Step+Statuses)
+
+:::
+
+:::note
+
+These are currently only accessed in Cucumber report conversion.
+If you're not using Cucumber in your project, you can safely ignore them.
+
+:::
+
+<hr />
+
+##### `failed`
+
+The Xray status name of a step marked as failed.
+
+**_Environment variable_**
+: `XRAY_STATUS_STEP_FAILED`
+
+**_Type_**
+: `string`
+
+**_Default_**
+: `undefined`
+
+:::tip Example
+
+<Tabs>
+  <TabItem value="configuration" label="Cypress configuration">
+
+```js showLineNumbers
+await configureXrayPlugin(on, config, {
+  xray: {
+    status: {
+      step: {
+        failed: "FAILURE",
+      },
+    },
+  },
+});
+```
+
+  </TabItem>
+  <TabItem value="env" label="Environment variable">
+
+```sh showLineNumbers
+npx cypress run --env XRAY_STATUS_STEP_FAILED=FAILURE
+```
+
+  </TabItem>
+</Tabs>
+
+:::
+
+<hr />
+
+##### `passed`
+
+The Xray status name of a step marked as passed.
+
+**_Environment variable_**
+: `XRAY_STATUS_STEP_PASSED`
+
+**_Type_**
+: `string`
+
+**_Default_**
+: `undefined`
+
+:::tip Example
+
+<Tabs>
+  <TabItem value="configuration" label="Cypress configuration">
+
+```js showLineNumbers
+await configureXrayPlugin(on, config, {
+    xray: {
+        status: {
+            step {
+                passed: "SUCCESS"
+            }
+        }
+    },
+});
+```
+
+  </TabItem>
+  <TabItem value="env" label="Environment variable">
+
+```sh showLineNumbers
+npx cypress run --env XRAY_STATUS_STEP_PASSED=SUCCESS
+```
+
+  </TabItem>
+</Tabs>
+
+:::
+
+<hr />
+
+##### `pending`
+
+The Xray status name of a step marked as pending.
+
+**_Environment variable_**
+: `XRAY_STATUS_STEP_PENDING`
+
+**_Type_**
+: `string`
+
+**_Default_**
+: `undefined`
+
+:::tip Example
+
+<Tabs>
+  <TabItem value="configuration" label="Cypress configuration">
+
+```js showLineNumbers
+await configureXrayPlugin(on, config, {
+  xray: {
+    status: {
+      step: {
+        pending: "AWAITING EXECUTION",
+      },
+    },
+  },
+});
+```
+
+  </TabItem>
+  <TabItem value="env" label="Environment variable">
+
+```sh showLineNumbers
+npx cypress run --env XRAY_STATUS_STEP_PENDING="AWAITING EXECUTION"
+```
+
+  </TabItem>
+</Tabs>
+
+:::
+
+<hr />
+
+##### `skipped`
+
+The Xray status name of a step marked as skipped.
+
+**_Environment variable_**
+: `XRAY_STATUS_STEP_SKIPPED`
+
+**_Type_**
+: `string`
+
+**_Default_**
+: `undefined`
+
+:::tip Example
+
+<Tabs>
+  <TabItem value="configuration" label="Cypress configuration">
+
+```js showLineNumbers
+await configureXrayPlugin(on, config, {
+  xray: {
+    status: {
+      step: {
+        skipped: "IGNORED",
+      },
+    },
+  },
+});
+```
+
+  </TabItem>
+  <TabItem value="env" label="Environment variable">
+
+```sh showLineNumbers
+npx cypress run --env XRAY_STATUS_STEP_SKIPPED=IGNORED
+```
+
+  </TabItem>
+</Tabs>
+
+:::
+
+<hr />
+
+### `testEnvironments`
+
+The test environments for test execution issues. These will be used as follows:
+
+- if the plugin creates new test execution issues, they will be associated with the issue
+- if the plugin reuses existing test execution issues, they will either:
+  - replace existing test environments
+  - be added if the issue does not yet have any test environments associated
+
+:::note
+
+Xray's API only allows _replacing_ test environments in the plugin's scope.
+It is not possible to completely _remove_ all existing test environments during result upload.
+Completely removing all existing environments needs to be done manually.
+
+This means that you will always need to specify one or more test environments to replace all existing ones, or leave them as is by omitting the option entirely.
+
+For more information about working with test environments, make sure to check out the documentation for [Xray server](https://docs.getxray.app/display/XRAY/Working+with+Test+Environments) or [Xray cloud](https://docs.getxray.app/display/XRAYCLOUD/Working+with+Test+Environments).
+
+:::
+
+**_Environment variable_**
+: `XRAY_TEST_ENVIRONMENTS`
+
+**_Type_**
+: [`string[]`](types.md)
+
+**_Default_**
+: `undefined`
+
+:::tip Example
+
+<Tabs>
+  <TabItem value="configuration" label="Cypress configuration">
+
+```js showLineNumbers
+await configureXrayPlugin(on, config, {
+  xray: {
+    testEnvironments: ["DEV", "v3.1"],
+  },
+});
+```
+
+  </TabItem>
+  <TabItem value="env" label="Environment variable">
+
+```sh showLineNumbers
+npx cypress run --env XRAY_TEST_ENVIRONMENTS=[DEV,v3.1]
+```
+
+  </TabItem>
+</Tabs>
+
+:::
+
+<hr />
+
+### `uploadRequests`
+
+Enables or disables the upload of manually executed requests using `cy.request`.
+If `true`, requests and responses will be attached to the corresponding test as evidence.
+If `false` or left `undefined`, neither requests nor responses are attached.
+
+:::note
+
+For this option to work properly, you need to [overwrite the `cy.request` command](../guides/uploadRequestData.mdx).
+
+:::
+
+**_Environment variable_**
+: `XRAY_UPLOAD_REQUESTS`
+
+**_Type_**
+: [`boolean`](types.md#boolean)
+
+**_Default_**
+: `false`
+
+:::tip Example
+
+<Tabs>
+  <TabItem value="configuration" label="Cypress configuration">
+
+```js showLineNumbers
+await configureXrayPlugin(on, config, {
+  xray: {
+    uploadRequests: true,
+  },
+});
+```
+
+  </TabItem>
+  <TabItem value="env" label="Environment variable">
+
+```sh showLineNumbers
+npx cypress run --env XRAY_UPLOAD_REQUESTS=true
+```
+
+  </TabItem>
+</Tabs>
+
+:::
+
+<hr />
+
+### `uploadResults`
+
+Turns execution results upload on or off.
+Useful when switching upload on or off from the command line (via environment variables).
+
+**_Environment variable_**
+: `XRAY_UPLOAD_RESULTS`
+
+**_Type_**
+: [`boolean`](types.md#boolean)
+
+**_Default_**
+: `true`
+
+:::tip Example
+
+<Tabs>
+  <TabItem value="configuration" label="Cypress configuration">
+
+```js showLineNumbers
+await configureXrayPlugin(on, config, {
+  xray: {
+    uploadResults: false,
+  },
+});
+```
+
+  </TabItem>
+  <TabItem value="env" label="Environment variable">
+
+```sh showLineNumbers
+npx cypress run --env XRAY_UPLOAD_RESULTS=false
+```
+
+  </TabItem>
+</Tabs>
+
+:::
+
+<hr />
+
+### `uploadScreenshots`
+
+Turns on or off the upload of screenshots Cypress takes during test execution.
+
+:::note
+
+This option only takes effect once [`uploadResults`](#uploadresults) is turned on.
+It is not possible to upload screenshots without uploading results.
+
+:::
+
+**_Environment variable_**
+: `XRAY_UPLOAD_SCREENSHOTS`
+
+**_Type_**
+: [`boolean`](types.md#boolean)
+
+**_Default_**
+: `true`
+
+:::tip Example
+
+<Tabs>
+  <TabItem value="configuration" label="Cypress configuration">
+
+```js showLineNumbers
+await configureXrayPlugin(on, config, {
+  xray: {
+    uploadScreenshots: false,
+  },
+});
+```
+
+  </TabItem>
+  <TabItem value="env" label="Environment variable">
+
+```sh showLineNumbers
+npx cypress run --env XRAY_UPLOAD_SCREENSHOTS_=false
+```
+
+  </TabItem>
+</Tabs>
+
+:::
+
+<hr />
+
+### `url`
+
+The Xray base URL to use.
+For more information please refer to the official documentation:
+
+- [Xray server](https://docs.getxray.app/display/XRAY/REST+API)
+- [Xray cloud](https://docs.getxray.app/display/XRAYCLOUD/REST+API)
+
+**_Environment variable_**
+: `XRAY_URL`
+
+**_Type_**
+: `string`
+
+**_Default_**
+: [`jira.url`](./jira.mdx#url) for Xray server and `https://xray.cloud.getxray.app` for Xray cloud
+
+:::tip Example
+
+<Tabs>
+  <TabItem value="configuration" label="Cypress configuration">
+
+```js showLineNumbers
+await configureXrayPlugin(on, config, {
+  xray: {
+    url: "https://eu.xray.cloud.getxray.app",
+  },
+});
+```
+
+  </TabItem>
+  <TabItem value="env" label="Environment variable">
+
+```sh showLineNumbers
+npx cypress run --env XRAY_URL=https://eu.xray.cloud.getxray.app
+```
+
+  </TabItem>
+</Tabs>
+
+:::

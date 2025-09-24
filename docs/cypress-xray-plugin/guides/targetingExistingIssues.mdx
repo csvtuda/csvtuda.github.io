@@ -1,0 +1,201 @@
+---
+toc_max_heading_level: 6
+sidebar_position: 1
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import ThemedImage from "@theme/ThemedImage";
+
+# Targeting existing issues
+
+The plugin does not upload any results unless you reuse existing Jira issues to not clutter up your projects with unnecessary test case (or test execution) issues.
+This section teaches you everything you need to know to target such existing issues.
+
+<hr />
+
+## Reuse Cypress issues
+
+To link Cypress tests to Jira issues, simply add the test case issue's key _anywhere_ in their `describe()` &ndash; `it()` title chain (or corresponding alternatives like `specify()`):
+
+```js showLineNumbers
+describe("a suite", () => {
+  it("PRJ-123 has a test case", () => {
+    // ...
+  });
+});
+
+describe("PRJ-456 data-driven suite", () => {
+  it("alice", () => {
+    /* ... */
+  });
+  it("bob", () => {
+    /* ... */
+  });
+  it("charlie who will also be reported as PRJ-789", () => {
+    /* ... */
+  });
+});
+```
+
+<div className="flex-container flex-container-horizontal">
+
+The plugin parses all test case names and looks for sequences of the form `<projectKey>-<number>`, with `<projectKey>` being the [configured project key](../configuration/jira.mdx#projectkey) and `<number>` the issue number.
+
+<ThemedImage
+  className="bordered-image"
+  alt="Synchronize step definitions in Xray based on your local feature files."
+  sources={{
+    light: useBaseUrl("/img/issueKeyLight.png"),
+    dark: useBaseUrl("/img/issueKeyDark.png"),
+  }}
+/>
+</div>
+
+<hr />
+
+## Reuse Cucumber issues
+
+To link your Cucumber feature files to existing Jira issues, you need to tag both scenario (outlines) and backgrounds.
+The tagging schemes follow the schemes Xray expects when importing feature files (see [here](https://docs.getxray.app/display/XRAY/Testing+using+Cypress+and+Cucumber+in+JavaScript) or [here](https://docs.getxray.app/display/XRAY/Importing+Cucumber+Tests+-+REST)).
+
+### Test issues
+
+In feature files, you must annotate scenarios (or scenario outlines) with a [tag](https://cucumber.io/docs/cucumber/api/?lang=java#tags) containing the corresponding test case issue key.
+The tag's prefix must match the one configured in your Xray settings (see [here](../configuration/cucumber.mdx#prefixes)) and contain the [project key](../configuration/jira.mdx#projectkey).
+
+:::tip Example
+
+<Tabs>
+  <TabItem value="feature-prefix" label="Feature (prefix)">
+
+```gherkin showLineNumbers
+Feature: Example page redirection
+
+@MyTestPrefix:CYP-129
+Scenario: Redirect by clicking
+    Given the example page
+    When the link is clicked
+    Then a redirect should occur
+```
+
+  </TabItem>
+  <TabItem value="configuration-prefix" label="cypress.config.js (prefix)">
+
+```js showLineNumbers
+await configureXrayPlugin(on, config, {
+  cucumber: {
+    prefixes: {
+      test: "MyTestPrefix:",
+    },
+  },
+});
+```
+
+  </TabItem>
+  <TabItem value="feature-no-prefix" label="Feature (no prefix)">
+
+```gherkin showLineNumbers
+Feature: Example page redirection
+
+@CYP-129
+Scenario: Redirect by clicking
+    Given the example page
+    When the link is clicked
+    Then a redirect should occur
+```
+
+  </TabItem>
+  <TabItem value="configuration-no-prefix" label="cypress.config.js (no prefix)">
+
+```js showLineNumbers
+await configureXrayPlugin(on, config, {
+  cucumber: {
+    prefixes: {
+      test: undefined, // or omit it entirely
+    },
+  },
+});
+```
+
+  </TabItem>
+</Tabs>
+
+:::
+
+### Precondition issues
+
+In feature files, you must add a comment to a background's _very first step_ containing the [tag](https://cucumber.io/docs/cucumber/api/?lang=java#tags) for a corresponding precondition issue key.
+The tag's prefix must match the one configured in your Xray settings (see [here](../configuration/cucumber.mdx#prefixes)) and contain the [project key](../configuration/jira.mdx#projectkey).
+
+:::note
+
+You can find more information about preconditions [here](https://docs.getxray.app/display/XRAY/Pre-Condition) for Xray server and [here](https://docs.getxray.app/display/XRAYCLOUD/Precondition) for Xray cloud.
+
+:::
+
+:::tip Example
+
+<Tabs>
+  <TabItem value="feature-prefix" label="Feature (prefix)">
+
+```gherkin showLineNumbers
+Feature: Big feature on lovely page
+
+Background:
+    #@MyPreconditionPrefix:CYP-332
+    Given a browser
+    Then the lovely page should open
+```
+
+  </TabItem>
+  <TabItem value="configuration-prefix" label="cypress.config.js (prefix)">
+
+```js showLineNumbers
+await configureXrayPlugin(on, config, {
+  cucumber: {
+    prefixes: {
+      precondition: "MyPreconditionPrefix:",
+    },
+  },
+});
+```
+
+  </TabItem>
+  <TabItem value="feature-no-prefix" label="Feature (no prefix)">
+
+```gherkin showLineNumbers
+Feature: Big feature on lovely page
+
+Background:
+    #CYP-332
+    Given a browser
+    Then the lovely page should open
+```
+
+  </TabItem>
+  <TabItem value="configuration-no-prefix" label="cypress.config.js (no prefix)">
+
+```js showLineNumbers
+await configureXrayPlugin(on, config, {
+  cucumber: {
+    prefixes: {
+      precondition: undefined, // or omit it entirely
+    },
+  },
+});
+```
+
+  </TabItem>
+</Tabs>
+
+:::
+
+<hr />
+
+## Reuse test execution issues
+
+By default, the plugin will always create a new test execution issue whenever you upload test results.
+
+You can prevent that from happening by specifying [the test execution issue key](../configuration/jira.mdx#testexecutionissuekey) you want to attach the results to.
