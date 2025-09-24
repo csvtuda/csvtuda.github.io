@@ -22,7 +22,7 @@ To upload your web requests and responses to Xray, you need to allow the plugin 
   <TabItem value="tab-1" label="commands.js">
 
 ```js showLineNumbers
-import "cypress-xray-plugin/commands";
+import "@csvtuda/cypress-xray-plugin/commands";
 ```
 
   </TabItem>
@@ -31,7 +31,7 @@ import "cypress-xray-plugin/commands";
 For details see [`uploadRequests`](../configuration/xray.mdx#uploadrequests).
 
 ```js showLineNumbers
-import { configureXrayPlugin } from "cypress-xray-plugin";
+import { configureXrayPlugin } from "@csvtuda/cypress-xray-plugin";
 
 async setupNodeEvents(on, config) {
     await configureXrayPlugin(on, config, {
@@ -66,7 +66,10 @@ This also allows for customisation of evidence file names.
   <TabItem value="tab-1" label="commands.js">
 
 ```js showLineNumbers
-import { enqueueTask, PluginTask } from "cypress-xray-plugin/commands/tasks";
+import {
+  enqueueTask,
+  PluginTask,
+} from "@csvtuda/cypress-xray-plugin/commands/tasks";
 
 Cypress.Commands.overwrite("request", (originalFn, request) => {
   return enqueueTask(PluginTask.OUTGOING_REQUEST, "my-request.json", request)
@@ -91,7 +94,10 @@ Cypress.Commands.overwrite("request", (originalFn, request) => {
 You can also choose to only upload responses if you wish:
 
 ```js showLineNumbers
-import { enqueueTask, PluginTask } from "cypress-xray-plugin/commands/tasks";
+import {
+  enqueueTask,
+  PluginTask,
+} from "@csvtuda/cypress-xray-plugin/commands/tasks";
 
 Cypress.Commands.overwrite("request", (originalFn, request) => {
   return originalFn(request).then((response) => {
@@ -110,7 +116,7 @@ Cypress.Commands.overwrite("request", (originalFn, request) => {
 For details see [`uploadRequests`](../configuration/xray.mdx#uploadrequests).
 
 ```js showLineNumbers
-import { configureXrayPlugin } from "cypress-xray-plugin";
+import { configureXrayPlugin } from "@csvtuda/cypress-xray-plugin";
 
 async setupNodeEvents(on, config) {
     await configureXrayPlugin(on, config, {

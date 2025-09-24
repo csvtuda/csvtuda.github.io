@@ -7,7 +7,7 @@ sidebar_position: 2
 Run the following command to add the plugin to your Cypress project:
 
 ```sh showLineNumbers
-npm install --save-dev cypress-xray-plugin
+npm install --save-dev @csvtuda/cypress-xray-plugin
 ```
 
 This plugin easily handles:
@@ -24,7 +24,7 @@ Below you will find the two ways to setup the plugin's basics, one for Cypress t
 Modify the `setupNodeEvents()` function in your Cypress configuration file as follows:
 
 ```js showLineNumbers
-import { configureXrayPlugin } from "cypress-xray-plugin";
+import { configureXrayPlugin } from "@csvtuda/cypress-xray-plugin";
 
 // ...
   async setupNodeEvents(on, config) {
@@ -76,7 +76,7 @@ To enable the plugin, modify the `setupNodeEvents()` function in your Cypress co
 import { addCucumberPreprocessorPlugin } from "@badeball/cypress-cucumber-preprocessor";
 import createEsbuildPlugin from "@badeball/cypress-cucumber-preprocessor/esbuild";
 import createBundler from "@bahmutov/cypress-esbuild-preprocessor";
-import { configureXrayPlugin, syncFeatureFile } from "cypress-xray-plugin";
+import { configureXrayPlugin, syncFeatureFile } from "@csvtuda/cypress-xray-plugin";
 import fix from "cypress-on-fix";
 
 // ...

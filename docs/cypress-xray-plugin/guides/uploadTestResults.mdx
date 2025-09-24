@@ -31,7 +31,7 @@ import ThemedImage from "@theme/ThemedImage";
 To upload your test results to Xray, make sure you have enabled the results upload in your configuration file:
 
 ```js showLineNumbers
-import { configureXrayPlugin } from "cypress-xray-plugin";
+import { configureXrayPlugin } from "@csvtuda/cypress-xray-plugin";
 
 async setupNodeEvents(on, config) {
     await configureXrayPlugin(on, config, {
@@ -107,7 +107,7 @@ describe("the upload demo", () => {
   <TabItem value="tab-2" label="cypress.config.js">
 
 ```js showLineNumbers
-import { configureXrayPlugin } from "cypress-xray-plugin";
+import { configureXrayPlugin } from "@csvtuda/cypress-xray-plugin";
 
 async setupNodeEvents(on, config) {
     await configureXrayPlugin(on, config, {
@@ -147,7 +147,10 @@ By default, the plugin simply adds a single parameter containing the iteration i
 To actually define concrete iteration parameters, a Cypress task can be used:
 
 ```js showLineNumbers
-import { enqueueTask, PluginTask } from "cypress-xray-plugin/commands/tasks";
+import {
+  enqueueTask,
+  PluginTask,
+} from "@csvtuda/cypress-xray-plugin/commands/tasks";
 
 describe("the login page", () => {
   for (const name of ["Jane", "John", "Mary"]) {
@@ -247,7 +250,7 @@ import createEsbuildPlugin from "@badeball/cypress-cucumber-preprocessor/esbuild
 import createBundler from "@bahmutov/cypress-esbuild-preprocessor";
 import { defineConfig } from "cypress";
 import fix from "cypress-on-fix";
-import { configureXrayPlugin, syncFeatureFile } from "cypress-xray-plugin";
+import { configureXrayPlugin, syncFeatureFile } from "@csvtuda/cypress-xray-plugin";
 
 async setupNodeEvents(on, config) {
     const fixedOn = fix(on);
