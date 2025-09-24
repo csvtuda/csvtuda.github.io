@@ -9,7 +9,6 @@ on:
 
 jobs:
   build:
-    name: Build Docusaurus
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -27,7 +26,6 @@ jobs:
           path: build
 
   deploy:
-    name: Deploy to GitHub Pages
     needs: build
 
     # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
