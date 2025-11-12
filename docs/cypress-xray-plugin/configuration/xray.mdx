@@ -554,7 +554,65 @@ npx cypress run --env XRAY_TEST_ENVIRONMENTS=[DEV,v3.1]
 
 <hr />
 
-### `uploadRequests`
+### ~~`uploadRequests`~~
+
+:::warning Deprecated since `8.6.1`
+
+Will be removed in version `9.0.0`.
+Please use the following instead:
+
+Disable the plugin's internal `cy.request()` override (which will be removed alongside this option in `9.0.0`):
+
+```ts showLineNumbers
+// cypress.config.js
+import { configureXrayPlugin } from "@csvtuda/cypress-xray-plugin";
+
+async setupNodeEvents(on, config) {
+    await configureXrayPlugin(on, config, {
+        // ...
+        xray: {
+            uploadRequests: false
+        }
+    });
+}
+```
+
+Then, if you want to upload requests, you'll need to overwrite the `cy.request()` command yourself:
+
+```ts showLineNumbers
+// commands.js
+import { enqueueTask } from "@csvtuda/cypress-xray-plugin/commands/tasks";
+
+Cypress.Commands.overwrite("request", (originalFn, request) => {
+  const myFileName = "my-request.json"; // build as desired
+  enqueueTask("cypress-xray-plugin:task:evidence:attachment", {
+    contentType: "application/json",
+    data: Buffer.from(JSON.stringify(request)).toString("base64"),
+    filename: myFileName,
+  });
+  return originalFn(request);
+});
+```
+
+If you want to upload responses as evidence, you'll need to enqueue the evidence task inside the test case:
+
+```ts showLineNumbers
+// my-test.js
+import { enqueueTask } from "@csvtuda/cypress-xray-plugin/commands/tasks";
+
+it("CYP-123 my test case", () => {
+  cy.request("my-url").then((response) =>
+    const myFileName = "my-response.json"; // build as desired
+    enqueueTask("cypress-xray-plugin:task:evidence:attachment", {
+      contentType: "application/json",
+      data: Buffer.from(JSON.stringify(response)).toString("base64"),
+      filename: myFileName,
+    })
+  );
+});
+```
+
+:::
 
 Enables or disables the upload of manually executed requests using `cy.request`.
 If `true`, requests and responses will be attached to the corresponding test as evidence.

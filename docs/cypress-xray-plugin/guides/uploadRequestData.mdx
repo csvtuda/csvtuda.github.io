@@ -3,132 +3,59 @@ toc_max_heading_level: 6
 sidebar_position: 4
 ---
 
-import Tabs from "@theme/Tabs";
-import TabItem from "@theme/TabItem";
-
 # Upload request data
 
 The plugin is able to record web requests executed by [`cy.request`](https://docs.cypress.io/api/commands/request) which can then be added as execution evidence to the test execution issue during the results upload.
 
 ![request evidence in Xray](/img/jsonEvidence.png)
 
-## Setup
-
-To upload your web requests and responses to Xray, you need to allow the plugin to overwrite the existing `cy.request` command in your [support file](https://docs.cypress.io/guides/core-concepts/writing-and-organizing-tests#Support-file) and enable the upload in its configuration:
-
-:::tip Example
-
-<Tabs>
-  <TabItem value="tab-1" label="commands.js">
-
-```js showLineNumbers
-import "@csvtuda/cypress-xray-plugin/commands";
-```
-
-  </TabItem>
-  <TabItem value="tab-2" label="cypress.config.js">
-
-For details see [`uploadRequests`](../configuration/xray.mdx#uploadrequests).
-
-```js showLineNumbers
-import { configureXrayPlugin } from "@csvtuda/cypress-xray-plugin";
-
-async setupNodeEvents(on, config) {
-    await configureXrayPlugin(on, config, {
-        // ...
-        xray: {
-            uploadRequests: true
-        }
-    });
-}
-```
-
-  </TabItem>
-</Tabs>
-
-:::
-
-By default, requests and responses are uploaded as JSON data with the following naming scheme:
-
-| type     | scheme                                     |
-| -------- | ------------------------------------------ |
-| request  | `<method> <url> <timestamp> request.json`  |
-| response | `<method> <url> <timestamp> response.json` |
+:::note
 
 The plugin will only upload requests and responses as JSON evidence for tests [that are associated with existing test issues](./targetingExistingIssues.mdx).
 
-:::tip But I have already had to overwrite `cy.request` for other purposes?
+:::
 
-The plugin also exports its task queue so that you can invoke it manually, rather than letting the single import override all existing `cy.request` behaviour.
-This also allows for customisation of evidence file names.
+## Setup
 
-<Tabs>
-  <TabItem value="tab-1" label="commands.js">
+To upload requests to Xray, you need to overwrite the existing `cy.request()` command in your [support file](https://docs.cypress.io/guides/core-concepts/writing-and-organizing-tests#Support-file):
 
-```js showLineNumbers
-import {
-  enqueueTask,
-  PluginTask,
-} from "@csvtuda/cypress-xray-plugin/commands/tasks";
+:::tip Example
+
+```ts showLineNumbers
+// commands.js
+import { enqueueTask } from "@csvtuda/cypress-xray-plugin/commands/tasks";
 
 Cypress.Commands.overwrite("request", (originalFn, request) => {
-  return enqueueTask(PluginTask.OUTGOING_REQUEST, "my-request.json", request)
-    .then((request) => {
-      // Do something with the request...
-      console.log(request);
-      return request;
-    })
-    .then(originalFn)
-    .then((response) => {
-      // Do something with the response...
-      console.log(response);
-      return enqueueTask(
-        PluginTask.INCOMING_RESPONSE,
-        "my-response.json",
-        response
-      );
-    });
-});
-```
-
-You can also choose to only upload responses if you wish:
-
-```js showLineNumbers
-import {
-  enqueueTask,
-  PluginTask,
-} from "@csvtuda/cypress-xray-plugin/commands/tasks";
-
-Cypress.Commands.overwrite("request", (originalFn, request) => {
-  return originalFn(request).then((response) => {
-    return enqueueTask(
-      PluginTask.INCOMING_RESPONSE,
-      "my-response.json",
-      response
-    );
+  const myFileName = "my-request.json"; // build as desired
+  enqueueTask("cypress-xray-plugin:task:evidence:attachment", {
+    contentType: "application/json",
+    data: Buffer.from(JSON.stringify(request)).toString("base64"),
+    filename: myFileName,
   });
+  return originalFn(request);
 });
 ```
 
-  </TabItem>
-  <TabItem value="tab-2" label="cypress.config.js">
+:::
 
-For details see [`uploadRequests`](../configuration/xray.mdx#uploadrequests).
+To upload responses, simply chain the evidence task from your `cy.request()` calls:
 
-```js showLineNumbers
-import { configureXrayPlugin } from "@csvtuda/cypress-xray-plugin";
+:::tip Example
 
-async setupNodeEvents(on, config) {
-    await configureXrayPlugin(on, config, {
-        // ...
-        xray: {
-            uploadRequests: true
-        }
-    });
-}
+```ts showLineNumbers
+// my-test.js
+import { enqueueTask } from "@csvtuda/cypress-xray-plugin/commands/tasks";
+
+it("CYP-123 my test case", () => {
+  cy.request("my-url").then((response) =>
+    const myFileName = "my-response.json"; // build as desired
+    enqueueTask("cypress-xray-plugin:task:evidence:attachment", {
+      contentType: "application/json",
+      data: Buffer.from(JSON.stringify(response)).toString("base64"),
+      filename: myFileName,
+    })
+  );
+});
 ```
-
-  </TabItem>
-</Tabs>
 
 :::
