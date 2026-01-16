@@ -65,12 +65,6 @@ const config: Config = {
           label: "cypress-xray-plugin",
         },
         {
-          type: "docSidebar",
-          position: "left",
-          sidebarId: "xray-client-node",
-          label: "Tutorial Extras",
-        },
-        {
           href: "https://github.com/csvtuda",
           position: "right",
           className: "header-github-link",
