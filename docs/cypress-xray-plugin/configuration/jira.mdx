@@ -55,6 +55,13 @@ npx cypress run --env JIRA_PROJECT_KEY="PRJ"
 
 Use this parameter to specify the base URL of your Jira instance.
 For Jira cloud, it is usually of the form `https://your-domain.atlassian.net` (without the `/jira` part, see [here](https://developer.atlassian.com/cloud/jira/platform/rest/v3/intro/#ad-hoc-api-calls/)).
+
+:::warning Scoped API tokens
+
+If you use scoped API tokens, the URL needs to be of the form `https://api.atlassian.com/ex/jira/your-cloud-id` (see [here](https://support.atlassian.com/atlassian-account/docs/manage-api-tokens-for-your-atlassian-account/))!
+
+:::
+
 For Jira server, you can have a look [here](https://confluence.atlassian.com/adminjiraserver/configuring-the-base-url-938847830.html) to determine your base URL.
 
 **_Environment variable_**

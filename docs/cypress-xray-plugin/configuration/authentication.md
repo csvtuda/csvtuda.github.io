@@ -115,6 +115,49 @@ For the cloud version of Jira, the plugin expects the following environment vari
 
 Consult Jira's [official documentation](https://developer.atlassian.com/cloud/jira/platform/basic-auth-for-rest-apis/) on how to set up cloud credentials.
 
+If you choose to create a scoped API token, it will need the following permissions:
+
+<details>
+    <summary>Classic</summary>
+
+    Simply paste this into the permissions search box and select the options listed below:
+
+    ```console showLineNumbers
+    read:jira-user
+    read:jira-work
+    write:jira-work
+    ```
+
+</details>
+
+<details>
+    <summary>Granular</summary>
+
+    Simply paste this into the permissions search box and select the options listed below:
+
+    ```console showLineNumbers
+    read:application-role:jira
+    read:attachment:jira
+    read:avatar:jira
+    read:field-configuration:jira
+    read:field.default-value:jira
+    read:field.option:jira
+    read:field:jira
+    read:group:jira
+    read:issue-details:jira
+    read:issue-type:jira
+    read:project-category:jira
+    read:project:jira
+    read:user:jira
+    write:attachment:jira
+    write:issue.property:jira
+    write:issue:jira
+    ```
+
+</details>
+
+Make sure that you have configured [the correct Jira URL](jira.mdx#url) for accessing the scoped API!
+
 :::
 
 :::tip Example
