@@ -4,7 +4,7 @@ import { themes as prismThemes } from "prism-react-renderer";
 
 const config: Config = {
   title: "csvtuda",
-  tagline: "Documentation for my OSS projects",
+  tagline: "documentation for my OSS projects",
   favicon: "img/favicon.ico",
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
@@ -51,10 +51,13 @@ const config: Config = {
   ],
 
   themeConfig: {
+    colorMode: {
+      respectPrefersColorScheme: true,
+    },
     navbar: {
       title: "csvtuda",
       logo: {
-        alt: "csvtuda logo",
+        alt: "csvtuda logo depicting a turtle floating in space with a galaxy for a shell",
         src: "img/logo.png",
       },
       items: [

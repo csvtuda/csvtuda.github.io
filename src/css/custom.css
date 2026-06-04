@@ -70,3 +70,15 @@ figcaption {
 .bordered-image {
   border: 1px solid var(--ifm-color-emphasis-500);
 }
+
+.hero {
+  background-image: url("/static/img/banner.jpg");
+  background-size: cover;
+  color: var(--ifm-color-white);
+  text-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.8),
+    0 0 20px rgba(0, 0, 0, 0.4);
+  border-color: var(--ifm-color-emphasis-700);
+  border-style: solid;
+  border-width: 2px 0 2px 0;
+}
