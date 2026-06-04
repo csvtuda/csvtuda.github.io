@@ -21,7 +21,7 @@ There are three ways to specify the plugin's HTTP configuration:
 
 The common options are automatically inherited by the Jira or Xray options, with the specific options overriding the common ones if repeated.
 
-:::tip Example
+:::tip[Example]
 
 The following example defines a maximum timeout of 5000 milliseconds for all HTTP requests:
 

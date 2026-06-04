@@ -6,7 +6,7 @@ sidebar_position: 5
 
 Here is a list of common concerns or issues and how to deal with them.
 
-<hr/>
+<hr />
 
 ## Trusting custom root CAs
 
@@ -14,19 +14,19 @@ In case an Xray instance is set up on an internal network with custom [CA certif
 
 Error messages requiring you to provide custom SSL certificates may look like any of the following:
 
-:::danger **Error: unable to get issuer certificate**
+:::danger[**Error: unable to get issuer certificate**]
 
-<!-- nothing -->
-
-:::
-
-:::danger **Error: unable to verify the first certificate**
-
-<!-- nothing -->
+{/* nothing */}
 
 :::
 
-:::tip Solution
+:::danger[**Error: unable to verify the first certificate**]
+
+{/* nothing */}
+
+:::
+
+:::tip[Solution]
 
 Download the SSL certificate of your CA and make sure it is in `.pem` format.
 Then, tell the plugin to trust that CA by providing the certificate's path in [the HTTP options](../configuration/http.md):
@@ -45,7 +45,7 @@ await configureXrayPlugin(on, config, {
 
 :::
 
-<hr/>
+<hr />
 
 ## Providing security options
 
@@ -55,13 +55,13 @@ However, clients can be instructed to allow insecure communcation by setting app
 
 Error messages that require you to provide security options may look like any of the following:
 
-:::danger **Error: unsafe legacy renegotiation disabled**
+:::danger[**Error: unsafe legacy renegotiation disabled**]
 
-<!-- nothing -->
+{/* nothing */}
 
 :::
 
-:::tip Solution
+:::tip[Solution]
 
 [Allow legacy insecure renegotiation between OpenSSL and unpatched clients or servers](https://www.openssl.org/docs/man1.1.1/man3/SSL_clear_options.html):
 
@@ -86,13 +86,13 @@ Depending on your network infrastructure, you may need to configure proxy server
 
 Error messages that require you to configure proxies may look like any of the following:
 
-:::danger **Error: Request failed with status code 502**
+:::danger[**Error: Request failed with status code 502**]
 
-<!-- nothing -->
+{/* nothing */}
 
 :::
 
-:::tip Solution
+:::tip[Solution]
 
 You can configure a single proxy for all requests:
 
@@ -169,7 +169,7 @@ Typically, Jira Cloud requires the assignee's _account ID_, whereas Jira Server 
 The easiest way to retrieve this information is to find an existing issue where the desired assignee already appears _somewhere_ in the fields (reporter, assignee) and then to export the issue to XML.
 You can then search the XML document for the desired person, which will usually appear in an HTML element.
 
-:::tip Jira Server
+:::tip[Jira Server]
 
 Assuming that the XML export contains the following line...
 
@@ -195,7 +195,7 @@ await configureXrayPlugin(on, config, {
 
 :::
 
-:::tip Jira Cloud
+:::tip[Jira Cloud]
 
 Assuming that the XML export contains the following line...
 
@@ -221,13 +221,13 @@ await configureXrayPlugin(on, config, {
 
 :::
 
-:::danger **Error assembling issue data: expected Object containing a `name` property**
+:::danger[**Error assembling issue data: expected Object containing a `name` property**]
 
-<!-- nothing -->
+{/* nothing */}
 
 :::
 
-:::tip Solution
+:::tip[Solution]
 
 Instead of assigning issues using the assignee's Jira ID or email address, you'll need to use their username instead (which they e.g. use to log in):
 
@@ -254,13 +254,13 @@ If you're using Jira/Xray Server, your local server instance may also be rate li
 This can be a problem for larger projects, as the plugin processes as much concurrently as possible.
 For example, Cucumber feature files are all imported at the same time, as their imports do not affect each other.
 
-:::danger **Request failed with status code 429**
+:::danger[**Request failed with status code 429**]
 
-<!-- nothing -->
+{/* nothing */}
 
 :::
 
-:::tip Solution
+:::tip[Solution]
 
 An easy way to avoid hitting API rate limits is to set a maximum number of requests per second.
 
@@ -301,13 +301,13 @@ await configureXrayPlugin(on, config, {
 
 Large test suites can cause problems when trying to upload their results to Xray, especially if screenshots are included as evidence.
 
-:::danger **RangeError: Invalid string length**
+:::danger[**RangeError: Invalid string length**]
 
-<!-- nothing -->
+{/* nothing */}
 
 :::
 
-:::tip Solution
+:::tip[Solution]
 
 The plugin is able to split result uploads into multiple requests using the [`splitUploads`](../configuration/plugin.mdx#splitupload) setting.
 

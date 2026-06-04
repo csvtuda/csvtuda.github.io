@@ -45,7 +45,7 @@ graph TD
 
 Depending on the provided combinations of environment variables, the plugin will automatically know which Xray API type to use.
 
-:::info Providing multiple combinations
+:::info[Providing multiple combinations]
 
 When providing more than one valid combination of variables, evaluation precedence of the authentication methods is as follows:
 
@@ -70,7 +70,7 @@ Consult Xray's [official documentation](https://docs.getxray.app/display/XRAYCLO
 
 :::
 
-:::tip Example
+:::tip[Example]
 
 ```sh
 npx cypress run --env XRAY_CLIENT_ID="ABCDEF",XRAY_CLIENT_SECRET="XYZ"
@@ -92,7 +92,7 @@ Xray server does not require any additional credentials.
 
 As with Xray authentication, the plugin will automatically choose the authentication method depending on the provided environment variables.
 
-:::info Providing multiple combinations
+:::info[Providing multiple combinations]
 
 When providing more than one valid combination of variables, evaluation precedence of the authentication methods is as follows:
 
@@ -160,7 +160,7 @@ Make sure that you have configured [the correct Jira URL](jira.mdx#url) for acce
 
 :::
 
-:::tip Example
+:::tip[Example]
 
 ```sh
 npx cypress run --env JIRA_USERNAME="user@company.com",JIRA_API_TOKEN="XYZ"
@@ -194,7 +194,7 @@ Consult Jira's [official documentation](https://confluence.atlassian.com/enterpr
 
 :::
 
-:::tip Example
+:::tip[Example]
 
 ```sh
 npx cypress run --env JIRA_API_TOKEN="XYZ"
@@ -209,7 +209,7 @@ For basic authentication, the plugin expects the following environment variables
 - `JIRA_USERNAME`
 - `JIRA_PASSWORD`
 
-:::tip Example
+:::tip[Example]
 
 ```sh
 npx cypress run --env JIRA_USERNAME="Bob",JIRA_PASSWORD="superSecure!unhaxx0rable"

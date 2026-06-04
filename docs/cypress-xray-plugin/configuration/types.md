@@ -22,7 +22,7 @@ Below you will find accepted values of custom option types you can use when prov
   `n`
   `off`
 
-:::tip Example
+:::tip[Example]
 
 ```sh showLineNumbers
 npx cypress run --env XRAY_UPLOAD_RESULTS=yes
@@ -46,7 +46,7 @@ npx cypress run --env XRAY_UPLOAD_RESULTS=yes
 
 :::
 
-:::tip Example
+:::tip[Example]
 
 ```sh showLineNumbers
 npx cypress run --env XRAY_TEST_ENVIRONMENTS=[DEV,"Cool Test Environment",2.3]
@@ -70,7 +70,7 @@ The most important rules seem to be:
 
 :::
 
-:::tip Example
+:::tip[Example]
 
 ```sh showLineNumbers
 npx cypress run --env JIRA_TEST_EXECUTION='{"fields":{"summary":"My execution!"}}'

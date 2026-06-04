@@ -24,7 +24,7 @@ It is used in many places throughout the plugin, for example for [mapping Cypres
 **_Type_**
 : `string`
 
-:::tip Example
+:::tip[Example]
 
 <Tabs>
   <TabItem value="configuration" label="Cypress configuration">
@@ -56,7 +56,7 @@ npx cypress run --env JIRA_PROJECT_KEY="PRJ"
 Use this parameter to specify the base URL of your Jira instance.
 For Jira cloud, it is usually of the form `https://your-domain.atlassian.net` (without the `/jira` part, see [here](https://developer.atlassian.com/cloud/jira/platform/rest/v3/intro/#ad-hoc-api-calls/)).
 
-:::warning Scoped API tokens
+:::warning[Scoped API tokens]
 
 If you use scoped API tokens, the URL needs to be of the form `https://api.atlassian.com/ex/jira/your-cloud-id` (see [here](https://support.atlassian.com/atlassian-account/docs/manage-api-tokens-for-your-atlassian-account/))!
 
@@ -70,7 +70,7 @@ For Jira server, you can have a look [here](https://confluence.atlassian.com/adm
 **_Type_**
 : `string`
 
-:::tip Example
+:::tip[Example]
 
 <Tabs>
   <TabItem value="configuration" label="Cypress configuration">
@@ -117,7 +117,7 @@ It is not possible to attach videos without uploading results.
 **_Default_**
 : `false`
 
-:::tip Example
+:::tip[Example]
 
 <Tabs>
   <TabItem value="configuration" label="Cypress configuration">
@@ -151,7 +151,7 @@ By default, the plugin accesses field information using the fields' names (ignor
 
 - Your Jira language setting is a language other than English
 
-  :::tip Example
+  :::tip[Example]
 
         When the plugin tries to access the test environments of issues, it will look for a field with name `Test Environments` by default.
         However, if Jira is set to French for example, it will return a field called `Environnements de Test` instead.
@@ -174,7 +174,7 @@ By default, the plugin accesses field information using the fields' names (ignor
 
 - Your Jira project contains several fields with identical names
 
-  :::tip Example
+  :::tip[Example]
 
         Jira does not prohibit configuring multiple fields with the same name.
         There might be multiple fields called `Test Environments` for example, the default Xray one and another one for descriptions of defects reported by customers in user acceptance tests.
@@ -206,7 +206,7 @@ Please consult the official documentation for more information about field IDs: 
 
 #### ~~`description`~~
 
-:::warning Deprecated since `7.2.0`
+:::warning[Deprecated since `7.2.0`]
 
 Will be removed in version `9.0.0`.
 Field `description` is a system field and will always have the ID `description`.
@@ -225,7 +225,7 @@ The description field ID of Jira issues.
 **_Default_**
 : `"description"`
 
-:::tip Example
+:::tip[Example]
 
 <Tabs>
   <TabItem value="configuration" label="Cypress configuration">
@@ -256,7 +256,7 @@ npx cypress run --env JIRA_FIELDS_DESCRIPTION=Beschreibung
 
 #### ~~`labels`~~
 
-:::warning Deprecated since `7.2.0`
+:::warning[Deprecated since `7.2.0`]
 
 Will be removed in version `9.0.0`.
 Field `labels` is a system field and will always have the ID `labels`.
@@ -275,7 +275,7 @@ The labels field ID of Jira issues.
 **_Default_**
 : `"labels"`
 
-:::tip Example
+:::tip[Example]
 
 <Tabs>
   <TabItem value="configuration" label="Cypress configuration">
@@ -306,7 +306,7 @@ npx cypress run --env JIRA_FIELDS_LABELS=Stichworte
 
 #### ~~`summary`~~
 
-:::warning Deprecated since `7.2.0`
+:::warning[Deprecated since `7.2.0`]
 
 Will be removed in version `9.0.0`.
 Field `summary` is a system field and will always have the ID `summary`.
@@ -325,7 +325,7 @@ The summary field ID of Jira issues.
 **_Default_**
 : `"summary"`
 
-:::tip Example
+:::tip[Example]
 
 <Tabs>
   <TabItem value="configuration" label="Cypress configuration">
@@ -374,7 +374,7 @@ Xray cloud provides ways to retrieve test environment field information independ
 **_Default_**
 : `"test environments"`
 
-:::tip Example
+:::tip[Example]
 
 <Tabs>
   <TabItem value="configuration" label="Cypress configuration">
@@ -423,7 +423,7 @@ Xray cloud provides ways to retrieve test plan field information independently o
 **_Default_**
 : `"test plan"`
 
-:::tip Example
+:::tip[Example]
 
 <Tabs>
   <TabItem value="configuration" label="Cypress configuration">
@@ -463,13 +463,13 @@ The value must match the format of Jira's issue create/update payloads:
 :::note
 
 Because the data here has to go through Xray first, it is possible that some fields that Jira normally is happy to accept will be rejected by Xray.
-For example, the assignee may need to be set using the `name` property instead of account IDs (see [FAQ](../guides/faq.md#assigning-issues)).
+For example, the assignee may need to be set using the `name` property instead of account IDs (see [FAQ](../guides/faq.mdx#assigning-issues)).
 
 :::
 
 You can do cool things here, including:
 
-- [setting assignees](../guides/faq.md#assigning-issues)
+- [setting assignees](../guides/faq.mdx#assigning-issues)
 - [setting custom fields](https://confluence.atlassian.com/jirakb/how-to-find-id-for-custom-field-s-744522503.html) (any fields actually)
 - performing issue transitions
 - ...
@@ -504,7 +504,7 @@ await configureXrayPlugin(on, config, {
 
 :::
 
-:::warning Warning (affected versions: `7.2.0` &leq; version &lt; `9.0.0`)
+:::warning[Warning (affected versions: `7.2.0` &leq; version &lt; `9.0.0`)]
 
 While conflicting options such as [`testExecutionIssueDescription`](#testexecutionissuedescription) or [`testExecutionIssueSummary`](#testexecutionissuesummary) are still available, the fields and values defined in `testExecutionIssue` will take precedence over all options marked as deprecated.
 The following code configuration will create test executions with `Blue summary` and `Blue description` fields:
@@ -535,7 +535,7 @@ await configureXrayPlugin(on, config, {
 **_Default_**
 : `undefined`
 
-:::tip Example
+:::tip[Example]
 
 <Tabs>
   <TabItem value="configuration" label="Cypress configuration">
@@ -591,7 +591,7 @@ If the [`key`](#key) is configured but `description` is omitted, the existing te
 **_Default_**
 : `"Cypress version: ${version} Browser: ${name} (${version})"` with values depending on Cypress and the chosen browser
 
-:::tip Example
+:::tip[Example]
 
 <Tabs>
   <TabItem value="configuration" label="Cypress configuration">
@@ -636,7 +636,7 @@ Use this option to specify the type of the test executions the plugin should cre
 **_Default_**
 : `"Test Execution"`
 
-:::tip Example
+:::tip[Example]
 
 <Tabs>
   <TabItem value="configuration" label="Cypress configuration">
@@ -686,7 +686,7 @@ If the [`key`](#key) is configured but the `summary` is omitted, the existing te
 **_Default_**
 : `"Execution Results [${t}]"` with `t` being a Unix timestamp when Cypress started testing
 
-:::tip Example
+:::tip[Example]
 
 <Tabs>
   <TabItem value="configuration" label="Cypress configuration">
@@ -731,7 +731,7 @@ If omitted, Jira will always create a new test execution issue with each upload.
 **_Default_**
 : `undefined`
 
-:::tip Example
+:::tip[Example]
 
 <Tabs>
   <TabItem value="configuration" label="Cypress configuration">
@@ -762,7 +762,7 @@ npx cypress run --env JIRA_TEST_EXECUTION_ISSUE='{"key":"PRJ-123"}'
 
 ### ~~`testExecutionIssueDescription`~~
 
-:::warning Deprecated since `7.2.0`
+:::warning[Deprecated since `7.2.0`]
 
 Will be removed in version `9.0.0`.
 To define a description, please use [`description`](#description) instead:
@@ -794,7 +794,7 @@ If the [`testExecutionIssueKey`](#testexecutionissuekey) is configured but the `
 **_Default_**
 : `Cypress version: ${version} Browser: ${name} (${version})` with values depending on Cypress and the chosen browser
 
-:::tip Example
+:::tip[Example]
 
 <Tabs>
   <TabItem value="configuration" label="Cypress configuration">
@@ -823,7 +823,7 @@ npx cypress run --env JIRA_TEST_EXECUTION_ISSUE_DESCRIPTION="This test run was a
 
 ### ~~`testExecutionIssueKey`~~
 
-:::warning Deprecated since `7.2.0`
+:::warning[Deprecated since `7.2.0`]
 
 Will be removed in version `9.0.0`.
 To reuse a test execution issue, please use [`key`](#key) instead:
@@ -852,7 +852,7 @@ If omitted, Jira will always create a new test execution issue with each upload.
 **_Default_**
 : `undefined`
 
-:::tip Example
+:::tip[Example]
 
 <Tabs>
   <TabItem value="configuration" label="Cypress configuration">
@@ -881,7 +881,7 @@ npx cypress run --env JIRA_TEST_EXECUTION_ISSUE_KEY="PRJ-123"
 
 ### ~~`testExecutionIssueSummary`~~
 
-:::warning Deprecated since `7.2.0`
+:::warning[Deprecated since `7.2.0`]
 
 Will be removed in version `9.0.0`.
 To define a summary, please use [`summary`](#summary) instead:
@@ -913,7 +913,7 @@ If the [`testExecutionIssueKey`](#testexecutionissuekey) is configured but the `
 **_Default_**
 : `Execution Results [${t}]` with `t` being a Unix timestamp when Cypress started testing
 
-:::tip Example
+:::tip[Example]
 
 <Tabs>
   <TabItem value="configuration" label="Cypress configuration">
@@ -942,7 +942,7 @@ npx cypress run --env JIRA_TEST_EXECUTION_ISSUE_SUMMARY="Monday morning regressi
 
 ### ~~`testExecutionIssueType`~~
 
-:::warning Deprecated since `7.2.0`
+:::warning[Deprecated since `7.2.0`]
 
 Will be removed in version `9.0.0`.
 To define a test execution issue type, please use [`issuetype`](#issuetype) instead:
@@ -979,7 +979,7 @@ Use this option to specify the type of the test executions the plugin should cre
 **_Default_**
 : `Test Execution`
 
-:::tip Example
+:::tip[Example]
 
 <Tabs>
   <TabItem value="configuration" label="Cypress configuration">
@@ -1019,7 +1019,7 @@ A test plan issue to attach the execution to.
 **_Default_**
 : `undefined`
 
-:::tip Example
+:::tip[Example]
 
 <Tabs>
   <TabItem value="configuration" label="Cypress configuration">
@@ -1048,7 +1048,7 @@ npx cypress run --env JIRA_TEST_PLAN_ISSUE_KEY="PRJ-456"
 
 ### `testPlanIssueType`
 
-:::warning Deprecated since `7.4.0`
+:::warning[Deprecated since `7.4.0`]
 
 Will be removed in version `9.0.0`.
 Unused.
@@ -1081,7 +1081,7 @@ The plugin only accesses this option when:
 **_Default_**
 : `Test Plan`
 
-:::tip Example
+:::tip[Example]
 
 <Tabs>
   <TabItem value="configuration" label="Cypress configuration">

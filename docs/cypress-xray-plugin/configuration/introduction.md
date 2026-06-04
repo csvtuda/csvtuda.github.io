@@ -69,7 +69,7 @@ On the other hand, there is the Jira API for tasks Jira handles natively, such a
 
 An option's category is therefore simply determined by whichever API needs to be used to fulfill its tasks.
 
-:::note Feedback
+:::note[Feedback]
 
 Feel free to [create an issue](https://github.com/csvtuda/cypress-xray-plugin/issues) for options where you find the split confusing or unnecessary, so that potential clarifications can be discussed.
 

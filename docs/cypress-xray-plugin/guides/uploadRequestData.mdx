@@ -19,7 +19,7 @@ The plugin will only upload requests and responses as JSON evidence for tests [t
 
 To upload requests to Xray, you need to overwrite the existing `cy.request()` command in your [support file](https://docs.cypress.io/guides/core-concepts/writing-and-organizing-tests#Support-file):
 
-:::tip Example
+:::tip[Example]
 
 ```ts showLineNumbers
 // commands.js
@@ -40,7 +40,7 @@ Cypress.Commands.overwrite("request", (originalFn, request) => {
 
 To upload responses, simply chain the evidence task from your `cy.request()` calls:
 
-:::tip Example
+:::tip[Example]
 
 ```ts showLineNumbers
 // my-test.js
