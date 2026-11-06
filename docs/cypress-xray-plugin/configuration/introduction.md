@@ -31,9 +31,9 @@ async setupNodeEvents(on, config) {
 Every option can also be set via environment variables:
 
 ```sh
-npx cypress run --env JIRA_PROJECT_KEY="PRJ",\
-                      JIRA_TEST_EXECUTION_ISSUE_KEY="PRJ-123",\
-                      XRAY_STATUS_PASSED="SUCCESS"
+npx cypress run --expose JIRA_PROJECT_KEY="PRJ",\
+                         JIRA_TEST_EXECUTION_ISSUE_KEY="PRJ-123",\
+                         XRAY_STATUS_PASSED="SUCCESS"
 ```
 
 Alternatively (see [Cypress documentation](https://docs.cypress.io/guides/guides/environment-variables#Setting)):

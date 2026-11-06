@@ -41,7 +41,7 @@ await configureXrayPlugin(on, config, {
   <TabItem value="env" label="Environment variable">
 
 ```sh showLineNumbers
-npx cypress run --env JIRA_PROJECT_KEY="PRJ"
+npx cypress run --expose JIRA_PROJECT_KEY="PRJ"
 ```
 
   </TabItem>
@@ -87,7 +87,7 @@ await configureXrayPlugin(on, config, {
   <TabItem value="env" label="Environment variable">
 
 ```sh showLineNumbers
-npx cypress run --env JIRA_URL="https://example.org/development/jira"
+npx cypress run --expose JIRA_URL="https://example.org/development/jira"
 ```
 
   </TabItem>
@@ -134,7 +134,7 @@ await configureXrayPlugin({
   <TabItem value="env" label="Environment variable">
 
 ```sh showLineNumbers
-npx cypress run --env JIRA_ATTACH_VIDEOS=true
+npx cypress run --expose JIRA_ATTACH_VIDEOS=true
 ```
 
   </TabItem>
@@ -244,7 +244,7 @@ await configureXrayPlugin(on, config, {
   <TabItem value="env" label="Environment variable">
 
 ```sh showLineNumbers
-npx cypress run --env JIRA_FIELDS_DESCRIPTION=Beschreibung
+npx cypress run --expose JIRA_FIELDS_DESCRIPTION=Beschreibung
 ```
 
   </TabItem>
@@ -294,7 +294,7 @@ await configureXrayPlugin(on, config, {
   <TabItem value="env" label="Environment variable">
 
 ```sh showLineNumbers
-npx cypress run --env JIRA_FIELDS_LABELS=Stichworte
+npx cypress run --expose JIRA_FIELDS_LABELS=Stichworte
 ```
 
   </TabItem>
@@ -344,7 +344,7 @@ await configureXrayPlugin(on, config, {
   <TabItem value="env" label="Environment variable">
 
 ```sh showLineNumbers
-npx cypress run --env JIRA_FIELDS_SUMMARY=Beschreibung
+npx cypress run --expose JIRA_FIELDS_SUMMARY=Beschreibung
 ```
 
   </TabItem>
@@ -393,7 +393,7 @@ await configureXrayPlugin(on, config, {
   <TabItem value="env" label="Environment variable">
 
 ```sh showLineNumbers
-npx cypress run --env JIRA_FIELDS_TEST_ENVIRONMENTS=customfield_12345
+npx cypress run --expose JIRA_FIELDS_TEST_ENVIRONMENTS=customfield_12345
 ```
 
   </TabItem>
@@ -442,7 +442,7 @@ await configureXrayPlugin(on, config, {
   <TabItem value="env" label="Environment variable">
 
 ```sh showLineNumbers
-npx cypress run --env JIRA_FIELDS_TEST_PLAN=customfield_12345
+npx cypress run --expose JIRA_FIELDS_TEST_PLAN=customfield_12345
 ```
 
   </TabItem>
@@ -562,7 +562,7 @@ await configureXrayPlugin(on, config, {
   <TabItem value="env" label="Environment variable">
 
 ```sh showLineNumbers
-npx cypress run --env JIRA_TEST_EXECUTION_ISSUE='{"key":"PRJ-16","fields":{"summary":"My execution issue summary","description":"My execution issue description","assignee":{"name":"cool.turtle@company.com"},"customfield_12345":"Sprint 17"}}'
+npx cypress run --expose JIRA_TEST_EXECUTION_ISSUE='{"key":"PRJ-16","fields":{"summary":"My execution issue summary","description":"My execution issue description","assignee":{"name":"cool.turtle@company.com"},"customfield_12345":"Sprint 17"}}'
 ```
 
   </TabItem>
@@ -612,7 +612,7 @@ await configureXrayPlugin(on, config, {
   <TabItem value="env" label="Environment variable">
 
 ```sh showLineNumbers
-npx cypress run --env JIRA_TEST_EXECUTION_ISSUE='{"fields":{"description":"Release Test Results for v42.0"}}'
+npx cypress run --expose JIRA_TEST_EXECUTION_ISSUE='{"fields":{"description":"Release Test Results for v42.0"}}'
 ```
 
   </TabItem>
@@ -661,7 +661,7 @@ await configureXrayPlugin(on, config, {
   <TabItem value="env" label="Environment variable">
 
 ```sh showLineNumbers
-npx cypress run --env JIRA_TEST_EXECUTION_ISSUE='{"fields":{"issuetype":{"id":"12345","name":"Xray Test Execution"}}}'
+npx cypress run --expose JIRA_TEST_EXECUTION_ISSUE='{"fields":{"issuetype":{"id":"12345","name":"Xray Test Execution"}}}'
 ```
 
   </TabItem>
@@ -707,7 +707,7 @@ await configureXrayPlugin(on, config, {
   <TabItem value="env" label="Environment variable">
 
 ```sh showLineNumbers
-npx cypress run --env JIRA_TEST_EXECUTION_ISSUE='{"fields":{"summary":"my summary"}}'
+npx cypress run --expose JIRA_TEST_EXECUTION_ISSUE='{"fields":{"summary":"my summary"}}'
 ```
 
   </TabItem>
@@ -750,7 +750,7 @@ await configureXrayPlugin(on, config, {
   <TabItem value="env" label="Environment variable">
 
 ```sh showLineNumbers
-npx cypress run --env JIRA_TEST_EXECUTION_ISSUE='{"key":"PRJ-123"}'
+npx cypress run --expose JIRA_TEST_EXECUTION_ISSUE='{"key":"PRJ-123"}'
 ```
 
   </TabItem>
@@ -811,7 +811,7 @@ await configureXrayPlugin(on, config, {
   <TabItem value="env" label="Environment variable">
 
 ```sh showLineNumbers
-npx cypress run --env JIRA_TEST_EXECUTION_ISSUE_DESCRIPTION="This test run was approved by Mr Anderson."
+npx cypress run --expose JIRA_TEST_EXECUTION_ISSUE_DESCRIPTION="This test run was approved by Mr Anderson."
 ```
 
   </TabItem>
@@ -869,7 +869,7 @@ await configureXrayPlugin(on, config, {
   <TabItem value="env" label="Environment variable">
 
 ```sh showLineNumbers
-npx cypress run --env JIRA_TEST_EXECUTION_ISSUE_KEY="PRJ-123"
+npx cypress run --expose JIRA_TEST_EXECUTION_ISSUE_KEY="PRJ-123"
 ```
 
   </TabItem>
@@ -930,7 +930,7 @@ await configureXrayPlugin(on, config, {
   <TabItem value="env" label="Environment variable">
 
 ```sh showLineNumbers
-npx cypress run --env JIRA_TEST_EXECUTION_ISSUE_SUMMARY="Monday morning regression test"
+npx cypress run --expose JIRA_TEST_EXECUTION_ISSUE_SUMMARY="Monday morning regression test"
 ```
 
   </TabItem>
@@ -996,7 +996,7 @@ await configureXrayPlugin(on, config, {
   <TabItem value="env" label="Environment variable">
 
 ```sh showLineNumbers
-npx cypress run --env JIRA_TEST_EXECUTION_ISSUE_TYPE="Test Run"
+npx cypress run --expose JIRA_TEST_EXECUTION_ISSUE_TYPE="Test Run"
 ```
 
   </TabItem>
@@ -1036,7 +1036,7 @@ await configureXrayPlugin(on, config, {
   <TabItem value="env" label="Environment variable">
 
 ```sh showLineNumbers
-npx cypress run --env JIRA_TEST_PLAN_ISSUE_KEY="PRJ-456"
+npx cypress run --expose JIRA_TEST_PLAN_ISSUE_KEY="PRJ-456"
 ```
 
   </TabItem>
@@ -1098,7 +1098,7 @@ await configureXrayPlugin(on, config, {
   <TabItem value="env" label="Environment variable">
 
 ```sh showLineNumbers
-npx cypress run --env JIRA_TEST_PLAN_ISSUE_TYPE="Plan de test"
+npx cypress run --expose JIRA_TEST_PLAN_ISSUE_TYPE="Plan de test"
 ```
 
   </TabItem>
