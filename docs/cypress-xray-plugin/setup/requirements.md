@@ -14,6 +14,7 @@ The plugin fully supports the following [Cypress](https://www.cypress.io/) versi
 - &ge; 13.0.0
 - &ge; 14.0.0
 - &ge; 15.0.0
+- &ge; 16.0.0
 
 :::info
 
